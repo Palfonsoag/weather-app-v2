@@ -12,7 +12,7 @@ test("ForecastItem render", async () => {
       weekDay={weekDayValue}
       hour={hourValue}
       temperature={temperatureValue}
-      state="sunny"
+      state="clear"
     />
   );
 
