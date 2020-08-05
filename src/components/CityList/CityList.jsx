@@ -9,6 +9,8 @@ import PropTypes from "prop-types";
 import CityInfo from "../CityInfo";
 import Weather from "../Weather";
 
+const getCityCode = (city, code) => `${city}-${code}`;
+
 const renderCityAndCountry = (eventOnClickCity) => (
   cityAndCountry,
   weather
@@ -36,34 +38,32 @@ const CityList = ({ cities, onClickCity }) => {
   const [error, setError] = useState(null);
   const apiKey = process.env.REACT_APP_API_KEY_WEATHER;
   useEffect(() => {
-    cities.forEach(({ city, country, countryCode }) => {
+    cities.forEach(async ({ city, countryCode }) => {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${apiKey}`;
 
-      axios
-        .get(url)
-        .then((response) => {
-          const { data } = response;
-          setError(null);
-          const temperature = Number(
-            convertUnits(data.main.temp).from("K").to("C").toFixed(0)
+      try {
+        const response = await axios.get(url);
+        const { data } = response;
+        setError(null);
+        const temperature = Number(
+          convertUnits(data.main.temp).from("K").to("C").toFixed(0)
+        );
+        const state = data.weather[0].main.toLowerCase();
+        setAllWeather((allWeather) => ({
+          ...allWeather,
+          [getCityCode(city, countryCode)]: { temperature, state },
+        }));
+      } catch (error) {
+        if (error.response) {
+          setError("There was an error in the weather service");
+        } else if (error.request) {
+          setError(
+            "There was an error reaching the service, check your internet connection"
           );
-          const state = data.weather[0].main.toLowerCase();
-          setAllWeather((allWeather) => ({
-            ...allWeather,
-            [`${city}-${country}`]: { temperature, state },
-          }));
-        })
-        .catch((error) => {
-          if (error.response) {
-            setError("There was an error in the weather service");
-          } else if (error.request) {
-            setError(
-              "There was an error reaching the service, check your internet connection"
-            );
-          } else {
-            setError("There was an unexpected error");
-          }
-        });
+        } else {
+          setError("There was an unexpected error");
+        }
+      }
     });
   }, [cities, apiKey]);
   const renderCityInfo = renderCityAndCountry(onClickCity);
@@ -78,7 +78,9 @@ const CityList = ({ cities, onClickCity }) => {
         {cities.map((cityAndCountry) =>
           renderCityInfo(
             cityAndCountry,
-            allWeather[`${cityAndCountry.city}-${cityAndCountry.country}`]
+            allWeather[
+              getCityCode(cityAndCountry.city, cityAndCountry.countryCode)
+            ]
           )
         )}
       </List>
