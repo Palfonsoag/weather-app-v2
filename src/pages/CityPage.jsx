@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import CityInfo from "../components/CityInfo";
 import Weather from "../components/Weather";
@@ -10,7 +11,7 @@ import AppFrame from "../components/AppFrame";
 const CityPages = () => {
   const city = "Caracas";
   const country = "Venezuela";
-  const state = "cloudy";
+  const state = "clouds";
   const temperature = 20;
   const humidity = 80;
   const wind = 5;
@@ -47,13 +48,13 @@ const CityPages = () => {
     },
   ];
   const forecastItemList = [
-    { hour: 18, state: "sunny", temperature: 17, weekDay: "Monday" },
-    { hour: 6, state: "cloud", temperature: 18, weekDay: "Tuesday" },
-    { hour: 12, state: "fog", temperature: 18, weekDay: "Wednesday" },
-    { hour: 18, state: "cloudy", temperature: 19, weekDay: "Thursday" },
+    { hour: 18, state: "clear", temperature: 17, weekDay: "Monday" },
+    { hour: 6, state: "clouds", temperature: 18, weekDay: "Tuesday" },
+    { hour: 12, state: "thunderstorm", temperature: 18, weekDay: "Wednesday" },
+    { hour: 18, state: "drizzle", temperature: 19, weekDay: "Thursday" },
     { hour: 14, state: "rain", temperature: 17, weekDay: "Friday" },
     { hour: 12, state: "rain", temperature: 17, weekDay: "Saturday" },
-    { hour: 11, state: "fog", temperature: 15, weekDay: "Sunday" },
+    { hour: 11, state: "thunderstorm", temperature: 15, weekDay: "Sunday" },
   ];
   return (
     <AppFrame>
