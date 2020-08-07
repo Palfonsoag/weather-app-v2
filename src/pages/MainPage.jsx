@@ -14,8 +14,9 @@ const cities = [
 
 const MainPage = () => {
   const history = useHistory();
-  const onClickHandler = () => {
-    history.push("/city");
+  const onClickHandler = (city, countryCode) => {
+    console.log(city, countryCode);
+    // history.push("/city");
   };
   return (
     <AppFrame>
