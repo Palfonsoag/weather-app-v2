@@ -6,7 +6,6 @@ import getAllWeather from "../utils/transform/getAllWeather";
 const useCityList = (cities) => {
   const [allWeather, setAllWeather] = useState({});
   const [error, setError] = useState(null);
-  const apiKey = process.env.REACT_APP_API_KEY_WEATHER;
   useEffect(() => {
     cities.forEach(async ({ city, countryCode }) => {
       const url = getWeatherUrl({ city, countryCode });
@@ -31,7 +30,7 @@ const useCityList = (cities) => {
         }
       }
     });
-  }, [cities, apiKey]);
+  }, [cities]);
   return { allWeather, error, setError };
 };
 

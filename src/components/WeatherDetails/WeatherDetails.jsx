@@ -6,7 +6,7 @@ const WeatherDetails = ({ humidity, wind }) => {
   return (
     <>
       <Typography>Humidity: {humidity}% </Typography>
-      <Typography> Wind: {wind} km/h</Typography>
+      <Typography>{` Wind: ${wind} km/h`}</Typography>
     </>
   );
 };
