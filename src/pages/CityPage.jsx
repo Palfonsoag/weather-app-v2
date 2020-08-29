@@ -12,11 +12,11 @@ import useCityList from "../hooks/useCityList";
 import { getCityCode } from "../utils/utils";
 import { getCountryNameByCountryCode } from "../utils/serviceCities";
 
-const CityPages = () => {
+const CityPages = ({ allWeather, onSetAllWeather }) => {
   const { city, chartData, forecastItemList, countryCode } = useCityPage();
   const cities = useMemo(() => [{ city, countryCode }], [city, countryCode]);
 
-  const { allWeather } = useCityList(cities);
+  useCityList(cities, allWeather, onSetAllWeather);
 
   const weather = allWeather[getCityCode(city, countryCode)];
 
@@ -26,6 +26,7 @@ const CityPages = () => {
 
   const humidity = weather && weather.humidity;
   const wind = weather && weather.wind;
+
   return (
     <AppFrame>
       <Grid container justify="center" direction="column" spacing={2}>
