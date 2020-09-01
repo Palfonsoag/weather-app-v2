@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage";
 import MainPage from "./pages/MainPage";
@@ -7,6 +7,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
   const [allWeather, setAllWeather] = useState({});
+  const [chartData, setChartData] = useState(null);
+  const [forecastItemList, setForecastItemList] = useState(null);
 
   const onSetAllWeather = useCallback(
     (weatherCity) => {
@@ -14,6 +16,33 @@ const App = () => {
     },
     [setAllWeather]
   );
+
+  const onSetChartData = useCallback(
+    (chartDataCity) => {
+      setChartData((chartData) => ({ ...chartData, ...chartDataCity }));
+    },
+    [setChartData]
+  );
+
+  const onSetForecastItemList = useCallback(
+    (forecastItemListCity) => {
+      setForecastItemList((forecastItemList) => ({
+        ...forecastItemList,
+        ...forecastItemListCity,
+      }));
+    },
+    [setForecastItemList]
+  );
+
+  const action = useMemo(
+    () => ({ onSetAllWeather, onSetChartData, onSetForecastItemList }),
+    [onSetAllWeather, onSetChartData, onSetForecastItemList]
+  );
+  const data = useMemo(() => ({ allWeather, chartData, forecastItemList }), [
+    allWeather,
+    chartData,
+    forecastItemList,
+  ]);
   return (
     <Router>
       <Switch>
@@ -21,13 +50,10 @@ const App = () => {
           <WelcomePage />
         </Route>
         <Route exact path="/main">
-          <MainPage onSetAllWeather={onSetAllWeather} allWeather={allWeather} />
+          <MainPage action={action} data={data} />
         </Route>
         <Route path="/city/:countryCode/:city">
-          <CityPages
-            allWeather={allWeather}
-            onSetAllWeather={onSetAllWeather}
-          />
+          <CityPages data={data} action={action} />
         </Route>
         <Route>
           <NotFoundPage />

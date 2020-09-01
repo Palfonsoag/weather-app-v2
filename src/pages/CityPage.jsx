@@ -12,13 +12,21 @@ import useCityList from "../hooks/useCityList";
 import { getCityCode } from "../utils/utils";
 import { getCountryNameByCountryCode } from "../utils/serviceCities";
 
-const CityPages = ({ allWeather, onSetAllWeather }) => {
-  const { city, chartData, forecastItemList, countryCode } = useCityPage();
+const CityPages = ({ data, action }) => {
+  const { onSetAllWeather, onSetChartData, onSetForecastItemList } = action;
+  const { allWeather, chartData, forecastItemList } = data;
+
+  const { city, countryCode } = useCityPage(
+    chartData,
+    forecastItemList,
+    onSetChartData,
+    onSetForecastItemList
+  );
   const cities = useMemo(() => [{ city, countryCode }], [city, countryCode]);
 
   useCityList(cities, allWeather, onSetAllWeather);
-
-  const weather = allWeather[getCityCode(city, countryCode)];
+  const cityCode = getCityCode(city, countryCode);
+  const weather = allWeather[cityCode];
 
   const country = countryCode && getCountryNameByCountryCode(countryCode);
   const state = weather && weather.state;
@@ -27,6 +35,8 @@ const CityPages = ({ allWeather, onSetAllWeather }) => {
   const humidity = weather && weather.humidity;
   const wind = weather && weather.wind;
 
+  const currentChart = chartData[cityCode];
+  const currentForecast = forecastItemList[cityCode];
   return (
     <AppFrame>
       <Grid container justify="center" direction="column" spacing={2}>
@@ -41,13 +51,13 @@ const CityPages = ({ allWeather, onSetAllWeather }) => {
           )}
         </Grid>
         <Grid item>
-          {!chartData && !forecastItemList && <LinearProgress />}
+          {!currentChart && !currentForecast && <LinearProgress />}
         </Grid>
         <Grid xs={12} item>
-          {chartData && <ForecastChart data={chartData} />}
+          {currentChart && <ForecastChart data={currentChart} />}
         </Grid>
         <Grid xs={12} item>
-          {forecastItemList && <Forecast forecastItemList={forecastItemList} />}
+          {currentForecast && <Forecast forecastItemList={currentForecast} />}
         </Grid>
       </Grid>
     </AppFrame>
