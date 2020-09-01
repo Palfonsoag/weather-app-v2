@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useReducer } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage";
 import MainPage from "./pages/MainPage";
@@ -6,43 +6,34 @@ import CityPages from "./pages/CityPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
-  const [allWeather, setAllWeather] = useState({});
-  const [chartData, setChartData] = useState({});
-  const [forecastItemList, setForecastItemList] = useState({});
+  const initialValue = {
+    allWeather: {},
+    chartData: {},
+    forecastItemList: {},
+  };
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "SET_ALL_WEATHER":
+        const weatherCity = action.payload;
+        const newAllWeather = { ...state.allWeather, ...weatherCity };
+        return { ...state, allWeather: newAllWeather };
 
-  const onSetAllWeather = useCallback(
-    (weatherCity) => {
-      setAllWeather((allWeather) => ({ ...allWeather, ...weatherCity }));
-    },
-    [setAllWeather]
-  );
+      case "SET_FORECAST_ITEM_LIST":
+        const forecastCity = action.payload;
+        const newForecastCity = { ...state.forecastItemList, ...forecastCity };
+        return { ...state, forecastItemList: newForecastCity };
+      case "SET_CHART_DATA":
+        const chartCity = action.payload;
+        const newChartData = { ...state.chartData, ...chartCity };
 
-  const onSetChartData = useCallback(
-    (chartDataCity) => {
-      setChartData((chartData) => ({ ...chartData, ...chartDataCity }));
-    },
-    [setChartData]
-  );
+        return { ...state, chartData: newChartData };
+      default:
+        return { ...state };
+    }
+  };
 
-  const onSetForecastItemList = useCallback(
-    (forecastItemListCity) => {
-      setForecastItemList((forecastItemList) => ({
-        ...forecastItemList,
-        ...forecastItemListCity,
-      }));
-    },
-    [setForecastItemList]
-  );
+  const [state, dispatch] = useReducer(reducer, initialValue);
 
-  const action = useMemo(
-    () => ({ onSetAllWeather, onSetChartData, onSetForecastItemList }),
-    [onSetAllWeather, onSetChartData, onSetForecastItemList]
-  );
-  const data = useMemo(() => ({ allWeather, chartData, forecastItemList }), [
-    allWeather,
-    chartData,
-    forecastItemList,
-  ]);
   return (
     <Router>
       <Switch>
@@ -50,10 +41,10 @@ const App = () => {
           <WelcomePage />
         </Route>
         <Route exact path="/main">
-          <MainPage action={action} data={data} />
+          <MainPage actions={dispatch} data={state} />
         </Route>
         <Route path="/city/:countryCode/:city">
-          <CityPages data={data} action={action} />
+          <CityPages data={state} actions={dispatch} />
         </Route>
         <Route>
           <NotFoundPage />
