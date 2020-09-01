@@ -7,8 +7,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
   const [allWeather, setAllWeather] = useState({});
-  const [chartData, setChartData] = useState(null);
-  const [forecastItemList, setForecastItemList] = useState(null);
+  const [chartData, setChartData] = useState({});
+  const [forecastItemList, setForecastItemList] = useState({});
 
   const onSetAllWeather = useCallback(
     (weatherCity) => {

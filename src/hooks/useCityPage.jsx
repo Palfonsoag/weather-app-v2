@@ -41,7 +41,14 @@ const useCityPage = (
     ) {
       getForecast();
     }
-  }, [city, countryCode, onSetChartData, onSetForecastItemList]);
+  }, [
+    city,
+    countryCode,
+    chartData,
+    forecastItemList,
+    onSetChartData,
+    onSetForecastItemList,
+  ]);
 
   return { city, countryCode };
 };
