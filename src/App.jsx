@@ -4,14 +4,16 @@ import WelcomePage from "./pages/WelcomePage";
 import MainPage from "./pages/MainPage";
 import CityPages from "./pages/CityPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { useCallback } from "react";
+
+const initialValue = {
+  allWeather: {},
+  chartData: {},
+  forecastItemList: {},
+};
 
 const App = () => {
-  const initialValue = {
-    allWeather: {},
-    chartData: {},
-    forecastItemList: {},
-  };
-  const reducer = (state, action) => {
+  const reducer = useCallback((state, action) => {
     switch (action.type) {
       case "SET_ALL_WEATHER":
         const weatherCity = action.payload;
@@ -30,7 +32,7 @@ const App = () => {
       default:
         return { ...state };
     }
-  };
+  }, []);
 
   const [state, dispatch] = useReducer(reducer, initialValue);
 

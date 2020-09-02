@@ -7,6 +7,8 @@ import { WiDaySunny } from "react-icons/wi";
 import Link from "@material-ui/core/Link";
 import { Link as LinkRouter } from "react-router-dom";
 
+const iconContextSize = { size: "6em" };
+
 const WelcomePage = () => {
   return (
     <WelcomeScreen>
@@ -14,7 +16,7 @@ const WelcomePage = () => {
         <div className="highlight">
           <Grid item container xs={12} justify="center" alignItems="center">
             <Grid item>
-              <IconContext.Provider value={{ size: "6em" }}>
+              <IconContext.Provider value={iconContextSize}>
                 <WiDaySunny />
               </IconContext.Provider>
             </Grid>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import CityList from "../components/CityList";
@@ -7,9 +7,12 @@ import { getCities } from "../utils/serviceCities";
 
 const MainPage = ({ data, actions }) => {
   const history = useHistory();
-  const onClickHandler = (city, countryCode) => {
-    history.push(`/city/${countryCode}/${city}`);
-  };
+  const onClickHandler = useCallback(
+    (city, countryCode) => {
+      history.push(`/city/${countryCode}/${city}`);
+    },
+    [history]
+  );
 
   const cities = getCities();
   return (

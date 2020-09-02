@@ -5,6 +5,8 @@ import Grid from "@material-ui/core/Grid";
 import { IconContext } from "react-icons";
 import IconState, { validValues } from "../IconState";
 
+const iconContextSize = { size: "5em" };
+
 const ForecastItem = ({ weekDay, hour, state, temperature }) => {
   return (
     <Grid container direction="column" justify="center" alignItems="center">
@@ -15,7 +17,7 @@ const ForecastItem = ({ weekDay, hour, state, temperature }) => {
         <Typography>{hour}</Typography>
       </Grid>
       <Grid item>
-        <IconContext.Provider value={{ size: "5em" }}>
+        <IconContext.Provider value={iconContextSize}>
           <IconState state={state} />
         </IconContext.Provider>
       </Grid>

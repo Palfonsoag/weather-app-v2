@@ -11,13 +11,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+const marginValues = { top: 20, bottom: 20, right: 5, left: 5 };
+
 const ForecastChart = ({ data }) => {
   return (
     <ResponsiveContainer height={250} width={"95%"}>
-      <LineChart
-        margin={{ top: 20, bottom: 20, right: 5, left: 5 }}
-        data={data}
-      >
+      <LineChart margin={marginValues} data={data}>
         <XAxis dataKey="dayHour" />
         <YAxis />
         <CartesianGrid />

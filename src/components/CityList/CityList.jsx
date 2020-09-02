@@ -9,29 +9,37 @@ import CityInfo from "../CityInfo";
 import Weather from "../Weather";
 import { getCityCode } from "../../utils/utils";
 
+const CityListItem = React.memo(
+  ({ city, country, countryCode, eventOnClickCity, weather }) => {
+    return (
+      <ListItem button onClick={() => eventOnClickCity(city, countryCode)}>
+        <Grid container justify="center" alignItems="center">
+          <Grid item md={9} xs={12}>
+            <CityInfo city={city} country={country} />
+          </Grid>
+          <Grid item md={3} xs={12}>
+            <Weather
+              temperature={weather && weather.temperature}
+              state={weather && weather.state}
+            />
+          </Grid>
+        </Grid>
+      </ListItem>
+    );
+  }
+);
+
 const renderCityAndCountry = (eventOnClickCity) => (
   cityAndCountry,
   weather
 ) => {
-  const { city, country, key, countryCode } = cityAndCountry;
   return (
-    <ListItem
-      button
-      key={key}
-      onClick={() => eventOnClickCity(city, countryCode)}
-    >
-      <Grid container justify="center" alignItems="center">
-        <Grid item md={9} xs={12}>
-          <CityInfo city={city} country={country} />
-        </Grid>
-        <Grid item md={3} xs={12}>
-          <Weather
-            temperature={weather && weather.temperature}
-            state={weather && weather.state}
-          />
-        </Grid>
-      </Grid>
-    </ListItem>
+    <CityListItem
+      {...cityAndCountry}
+      key={cityAndCountry.key}
+      eventOnClickCity={eventOnClickCity}
+      weather={weather}
+    />
   );
 };
 
@@ -72,4 +80,4 @@ CityList.propTypes = {
   onClickCity: PropTypes.func.isRequired,
 };
 
-export default CityList;
+export default React.memo(CityList);

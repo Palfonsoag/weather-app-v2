@@ -6,6 +6,8 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { IconContext } from "react-icons";
 import IconState, { validValues } from "../IconState";
 
+const iconContextSize = { size: "5em" };
+
 const Weather = ({ temperature, state }) => {
   return (
     <Grid
@@ -16,7 +18,7 @@ const Weather = ({ temperature, state }) => {
       alignItems="center"
       spacing={1}
     >
-      <IconContext.Provider value={{ size: "5em" }}>
+      <IconContext.Provider value={iconContextSize}>
         {state ? (
           <IconState state={state} />
         ) : (

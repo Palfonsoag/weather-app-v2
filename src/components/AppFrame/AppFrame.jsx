@@ -10,6 +10,8 @@ import { IconContext } from "react-icons";
 import { WiDaySunny } from "react-icons/wi";
 import { Link as LinkRouter } from "react-router-dom";
 
+const iconContextSize = { size: "2em" };
+
 const AppFrame = ({ children }) => {
   return (
     <Grid container justify="center">
@@ -22,7 +24,7 @@ const AppFrame = ({ children }) => {
               color="inherit"
               aria-label="menu"
             >
-              <IconContext.Provider value={{ size: "2em" }}>
+              <IconContext.Provider value={iconContextSize}>
                 <WiDaySunny />
               </IconContext.Provider>
             </Link>
