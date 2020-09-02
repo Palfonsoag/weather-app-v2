@@ -4,7 +4,6 @@ const cities = [
   { city: "Lisbon", country: "Portugal", key: 3, countryCode: "PT" },
   { city: "Lima", country: "Peru", key: 4, countryCode: "PE" },
   { city: "Cordoba", country: "Argentina", key: 5, countryCode: "AR" },
-  { city: "Milan", country: "Italy", key: 6, countryCode: "IT" },
 ];
 
 export const getCities = () => cities;

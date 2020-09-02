@@ -8,6 +8,10 @@ import PropTypes from "prop-types";
 import CityInfo from "../CityInfo";
 import Weather from "../Weather";
 import { getCityCode } from "../../utils/utils";
+import {
+  useWeatherDispatchContext,
+  useWeatherStateContext,
+} from "../../WeatherContext";
 
 const CityListItem = React.memo(
   ({ city, country, countryCode, eventOnClickCity, weather }) => {
@@ -43,7 +47,9 @@ const renderCityAndCountry = (eventOnClickCity) => (
   );
 };
 
-const CityList = ({ cities, onClickCity, actions, data }) => {
+const CityList = ({ cities, onClickCity }) => {
+  const actions = useWeatherDispatchContext();
+  const data = useWeatherStateContext();
   const { allWeather } = data;
   const { error, setError } = useCityList(cities, allWeather, actions);
 
